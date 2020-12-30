@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1.0">
+        <title>real-time-chat-platform</title>
+    </head>
+
+    <body>
+        <!-- For client to connect to socket -->
+        <script
+            src="/socket.io/socket.io.js"></script>
+        <!-- To connect to io server -->
+        <script>
+            const socket = io.connect('http://localhost:8000');
+            // When we get a message from the server
+            socket.on('message', (data) => {
+                console.log(data);
+                // emit response to server
+                socket.emit('response', { john: 'I\'m good thanks' });
+            })
+        </script>
+    </body>
+
+</html>
