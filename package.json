@@ -1,0 +1,29 @@
+{
+  "name": "real-time-chat-platform",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx nodemon ./index.js --exec npx babel-node -e js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "javascript",
+    "nodejs",
+    "server",
+    "socket.io",
+    "express"
+  ],
+  "author": "Melvin Kisten",
+  "license": "GPL-2.0",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.6",
+    "socket.io": "^3.0.4"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "@babel/preset-stage-0": "^7.8.3"
+  }
+}
