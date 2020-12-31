@@ -85,12 +85,21 @@
             src="/socket.io/socket.io.js"></script>
         <!-- To connect to io server -->
         <script>
-            const socket = io.connect('http://localhost:8000');
-            // When we get a message from the server
-            socket.on('message', (data) => {
-                console.log(data);
-                // emit response to server
-                socket.emit('response', { john: 'I\'m good thanks' });
+            const socket = io();
+            // send #m as the message to the server
+            // on submit
+            $('form').submit(() => {
+                // send value/input of m (typed input) to the server
+                socket.emit('message', $('#m').val());
+                // empty/clear the value/input once sent
+                $('#m').val('');
+                return false;
+            })
+
+            // listen to 'message' event
+            // add <li> and put message in it
+            socket.on('message', (msg) => {
+                $('#messages').append($('<li>').text(msg));
             })
         </script>
     </body>

@@ -23,12 +23,9 @@ app.get('/', (req, res) => {
 // logic on connection event in socket
 io.on('connection', (socket) => {
   console.log('user connected');
-  // send message to client
-  socket.emit('message', {
-    jane: 'how\'s it going?'
-  });
-  // receives response from the client
-  socket.on('response', (data) => {
-    console.log(data);
-  });
+  // listen for 'message' event
+  socket.on('message', (msg) => {
+    console.log(`message: ${msg}`);
+    io.emit('message', msg);
+  })
 })
