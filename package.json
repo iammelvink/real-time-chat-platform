@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "npx nodemon ./index.js --exec npx babel-node -e js",
+    "debug": "DEBUG=* npx nodemon ./index.js --exec npx babel-node -e js",
+    "win-debug": "set DEBUG=* npx nodemon ./index.js --exec npx babel-node -e js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
