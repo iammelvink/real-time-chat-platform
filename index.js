@@ -26,6 +26,14 @@ io.on('connection', (socket) => {
   // listen for 'message' event
   socket.on('message', (msg) => {
     console.log(`message: ${msg}`);
+    // emit the message to everyone
     io.emit('message', msg);
+  });
+
+  // listen to disconnect event
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+    // emit everyone a user disconnected
+    io.emit('message', 'user disconnected');
   })
 })

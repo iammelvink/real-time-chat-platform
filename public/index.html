@@ -96,6 +96,12 @@
                 return false;
             })
 
+            // listen to a connect event
+            socket.on('connect', () => {
+                // emit everyone a user connected
+                socket.emit('message', 'user connected');
+            })
+
             // listen to 'message' event
             // add <li> and put message in it
             socket.on('message', (msg) => {
