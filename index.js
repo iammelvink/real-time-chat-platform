@@ -20,20 +20,23 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/public/index.html')
 })
 
+// namespace (creates separation/groups for users)
+const math = io.of('/math');
+
 // logic on connection event in socket
-io.on('connection', (socket) => {
+math.on('connection', (socket) => {
   console.log('user connected');
   // listen for 'message' event
   socket.on('message', (msg) => {
     console.log(`message: ${msg}`);
     // emit the message to everyone
-    io.emit('message', msg);
+    math.emit('message', msg);
   });
 
   // listen to disconnect event
   socket.on('disconnect', () => {
     console.log('user disconnected');
     // emit everyone a user disconnected
-    io.emit('message', 'user disconnected');
+    math.emit('message', 'user disconnected');
   })
 })

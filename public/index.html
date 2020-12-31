@@ -85,7 +85,8 @@
             src="/socket.io/socket.io.js"></script>
         <!-- To connect to io server -->
         <script>
-            const socket = io();
+            // connect to namespace
+            const socket = io('/math');
             // send #m as the message to the server
             // on submit
             $('form').submit(() => {
