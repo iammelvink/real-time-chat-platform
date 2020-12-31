@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1.0">
+        <title>Physics room</title>
+        <link rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous">
+
+        <style>
+            form {
+                padding: 20px;
+                position: fixed;
+                bottom: 0;
+                width: 100%;
+                padding-right: 50px;
+            }
+
+            #messages {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                width: 100%;
+            }
+
+            #messages li {
+                padding: 5px 10px;
+            }
+
+            #messages li:nth-child(odd) {
+                background: #eee;
+            }
+
+        </style>
+    </head>
+
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                <ul id="messages"></ul>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <form action="">
+                        <div class="input-group">
+                            <input id="m"
+                                autocomplete="off"
+                                type="text"
+                                class="form-control"
+                                placeholder="Message..."
+                                aria-label="Message..." />
+                            <span
+                                class="input-group-btn">
+                                <button
+                                    class="btn btn-secondary"
+                                    type="submit">Send</button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bootstrap scripts -->
+        <script
+            src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+        <script
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+        <!-- End Bootstrap scripts -->
+
+        <!-- For client to connect to socket -->
+        <script
+            src="/socket.io/socket.io.js"></script>
+        <!-- To connect to io server -->
+        <script>
+            // connect to namespace
+            const socket = io('/school');
+
+            // room
+            const room = 'physics';
+            // send #m as the message to the server
+            // on submit
+            $('form').submit(() => {
+
+                // capture message from input
+                let msg = $('#m').val();
+                // send value/input of m (typed input) to the server
+                // passing the msg and room
+                socket.emit('message', { msg, room });
+                // empty/clear the value/input once sent
+                $('#m').val('');
+                return false;
+            })
+
+            // listen to a connect event
+            socket.on('connect', () => {
+                // emit everyone a user connected
+                socket.emit('join', { room: room });
+            })
+
+            // listen to 'message' event
+            // add <li> and put message in it
+            socket.on('message', (msg) => {
+                $('#messages').append($('<li>').text(msg));
+            })
+        </script>
+    </body>
+
+</html>

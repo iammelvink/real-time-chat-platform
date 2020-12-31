@@ -10,58 +10,27 @@
             href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
             integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
             crossorigin="anonymous">
-
-        <style>
-            form {
-                padding: 20px;
-                position: fixed;
-                bottom: 0;
-                width: 100%;
-                padding-right: 50px;
-            }
-
-            #messages {
-                list-style-type: none;
-                margin: 0;
-                padding: 0;
-                width: 100%;
-            }
-
-            #messages li {
-                padding: 5px 10px;
-            }
-
-            #messages li:nth-child(odd) {
-                background: #eee;
-            }
-
-        </style>
     </head>
 
     <body>
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-3">School chat
+                </h1>
+                <p class="lead">Select your room
+                    of choice below</p>
+            </div>
+        </div>
         <div class="container-fluid">
             <div class="row">
-                <ul id="messages"></ul>
-            </div>
-            <div class="row">
-                <div class="col-lg-6">
-                    <form action="">
-                        <div class="input-group">
-                            <input id="m"
-                                autocomplete="off"
-                                type="text"
-                                class="form-control"
-                                placeholder="Message..."
-                                aria-label="Message..." />
-                            <span
-                                class="input-group-btn">
-                                <button
-                                    class="btn btn-secondary"
-                                    type="submit">Send</button>
-                            </span>
-                        </div>
-                    </form>
-                </div>
+                <ul class="list-group col">
+                    <a href="/math"
+                        class="list-group-item list-group-item-action">Math</a>
+                    <a href="/physics"
+                        class="list-group-item">Physics</a>
+                    <a href="/chemistry"
+                        class="list-group-item">Chemistry</a>
+                </ul>
             </div>
         </div>
 
@@ -79,43 +48,6 @@
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
         <!-- End Bootstrap scripts -->
-
-        <!-- For client to connect to socket -->
-        <script
-            src="/socket.io/socket.io.js"></script>
-        <!-- To connect to io server -->
-        <script>
-            // room
-            const room = 'math';
-
-            // connect to namespace
-            const socket = io('/school');
-            // send #m as the message to the server
-            // on submit
-            $('form').submit(() => {
-
-                // capture message from input
-                let msg = $('#m').val();
-                // send value/input of m (typed input) to the server
-                // passing the msg and room
-                socket.emit('message', { msg, room });
-                // empty/clear the value/input once sent
-                $('#m').val('');
-                return false;
-            })
-
-            // listen to a connect event
-            socket.on('connect', () => {
-                // emit everyone a user connected
-                socket.emit('join', { room: room });
-            })
-
-            // listen to 'message' event
-            // add <li> and put message in it
-            socket.on('message', (msg) => {
-                $('#messages').append($('<li>').text(msg));
-            })
-        </script>
     </body>
 
 </html>

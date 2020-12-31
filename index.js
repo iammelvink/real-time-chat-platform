@@ -20,6 +20,21 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/public/index.html')
 })
 
+// serve static math.html file
+app.get('/math', (req, res) => {
+  res.sendFile(__dirname + '/public/math.html')
+})
+
+// serve static physics.html file
+app.get('/physics', (req, res) => {
+  res.sendFile(__dirname + '/public/physics.html')
+})
+
+// serve static chemistry.html file
+app.get('/chemistry', (req, res) => {
+  res.sendFile(__dirname + '/public/chemistry.html')
+})
+
 // namespace (creates separation/groups for users)
 const school = io.of('/school');
 
