@@ -85,13 +85,20 @@
             src="/socket.io/socket.io.js"></script>
         <!-- To connect to io server -->
         <script>
+            // room
+            const room = 'math';
+
             // connect to namespace
-            const socket = io('/math');
+            const socket = io('/school');
             // send #m as the message to the server
             // on submit
             $('form').submit(() => {
+
+                // capture message from input
+                let msg = $('#m').val();
                 // send value/input of m (typed input) to the server
-                socket.emit('message', $('#m').val());
+                // passing the msg and room
+                socket.emit('message', { msg, room });
                 // empty/clear the value/input once sent
                 $('#m').val('');
                 return false;
@@ -100,7 +107,7 @@
             // listen to a connect event
             socket.on('connect', () => {
                 // emit everyone a user connected
-                socket.emit('message', 'user connected');
+                socket.emit('join', { room: room });
             })
 
             // listen to 'message' event

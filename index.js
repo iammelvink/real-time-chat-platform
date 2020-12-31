@@ -21,22 +21,28 @@ app.get('/', (req, res) => {
 })
 
 // namespace (creates separation/groups for users)
-const math = io.of('/math');
+const school = io.of('/school');
 
 // logic on connection event in socket
-math.on('connection', (socket) => {
-  console.log('user connected');
+school.on('connection', (socket) => {
+  // listen to join event
+  socket.on('join', (data) => {
+    //join the room
+    socket.join(data.room);
+    // send message to members of that room
+    school.in(data.room).emit('message', `New user joined the ${data.room} room!`);
+  })
   // listen for 'message' event
-  socket.on('message', (msg) => {
-    console.log(`message: ${msg}`);
-    // emit the message to everyone
-    math.emit('message', msg);
+  socket.on('message', (data) => {
+    console.log(`message: ${data.msg}`);
+    // emit message to members of that room
+    school.in(data.room).emit('message', data.msg);
   });
 
   // listen to disconnect event
   socket.on('disconnect', () => {
     console.log('user disconnected');
     // emit everyone a user disconnected
-    math.emit('message', 'user disconnected');
+    school.emit('message', 'user disconnected');
   })
 })
